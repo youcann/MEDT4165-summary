@@ -94,9 +94,18 @@ y(t) = x(t) \ast g(t) \quad\laplace\quad Y(f) = X(f) \cdot G(f)
 
 To achieve sharp transitions between stop and passband, high filter orders are needed. 
 
+With the increasing of the length of the filter window, the spectrum becomes narrower, the ripples bunch more closely around the cut off frequency (but do not reduce the ripple magnitudes), the transition from passband to stopband becomes sharper. To reduce the ripples of the sidelobes, a proper filter should be used (like hamming window).
+
 \item \textbf{Explain the difference between FIR filters and IIR filters.}
 
 IIR filters use recursion and can become unstable but to achieve a given filter characteristic an IIR architecture usually requires a lower order than an FIR filter. FIR filter are always stable (Their impulse response is finite).
+
+ \begin{figure}[H]
+    \centering
+\includegraphics[width=0.7\textwidth]{img/FIR_IIR.png}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\caption{FIR vs IIR} %\footnote[1]{Exercise 1 - Signal processing intro solution, Jørgen}} 
+\end{figure}
 
 \item \textbf{Explain what it means that a filter is linear, causal and shift invariant.}
 
@@ -151,13 +160,15 @@ The relative reflected energy is given by
 \end{equation}
 The transmitted portion is then $\alpha_T=1-\alpha_R$.
 
-Gel is used to bridge the air gap between the transducer and the human skin (Impedance matching).
+\textbf{The transducer is matched to tissue, but air has a tendency to get in the way. }
+
+Gel is used to bridge the air gap between the transducer and the human skin (Impedance matching) to ensurre effective transmission of ultrasound. 
 
 \item \textbf{Be able to explain the difference between scattering and specular reflection.}
 
 \begin{itemize}
-\item Specular: Reflections at large, smooth interfaces, amplitude not dependent on $f$
-\item Scattering: Interfaces smaller than $\lambda$, amplitude dependent on $f$
+\item Specular: Reflections at large, smooth interfaces (between organs), amplitude not dependent on $f$
+\item Scattering: Diverge/spreading of the beam with distance. Occurs for  Interfaces(within organs/tissue) smaller than $\lambda$, amplitude dependent on $f$
 \end{itemize}
 
 \item \textbf{Know which mechanisms lead to attenuation of ultrasound signal, and be able to estimate attenuation as a function of depth given the center frequency and the material properties of the medium.}
@@ -173,22 +184,54 @@ The 2D sector is covered by steering the beam (phased array transducer) or scann
 \item \textbf{Explain the acquisition parameters center frequency, pulse length, aperture, focus, and image properties gain, resolution and SNR. Know the relations between acquisition parameters and image properties.}
 
 \begin{itemize}
-\item center frequency:
-\item pulse length:
-\item aperture:
-\item focus:
-\item gain:
-\item resolution:
-\item SNR:
+\item center frequency:"The center frequency of the resonant pass-band. Same as resonance frequency."
+\item pulse length: "The length of the transmitted ultrasound pulse."
+\item aperture: "The crossectional dimension of a wave source"/ the probe diameter
+\item focus: "The region between the extreme nearfield and the farfield is called the transition.region. In this region the beam contracts before it starts to expand in the farfield, causing an apparent focusing that is referred to as diffraction focusing (The signal components from a certain depth are added in phase). The focusing is used to increase the signal intensity at a given depth and to improve the image lateral resolution."
+\item gain: "
+It is used an amplifier where the gain is swept as a function of time from low gain right after the pulse transmission when strong signals from shallow depths are received, towards higher gain when weaker signals from deeper.depths are received. This variation in gain compensates for the attenuation of the ultrasound in the tissue. "
+\item resolution: 
+\textbf{The apparent size in image is determined by the beam width and pulse length.}
+
+1. radial/axial resolution: tells us how well the system can differentiate two targets placed at almost the same depth.
+
+\textbf{2 scatterers at different depth will appear separate if separated by more than the pulse length.}
+
+Ideally, the pulse length in imaging (B and M mode) should be as short as possible, but this is dependent on the physical properties of the probe. The pulse length is proportional to the spread of the frequencies(BW of the pulse): pulse length is proportional with 1/BW.
+
+For imaging, the ideal pulse would be highest possible frequency (depending on the required depth penetration) and the shortest possible pulse length. 
+
+2. lateral resolution: tells us how well the system can differentiate two targets placed at the same depth separated laterally. The lateral resolution of a beam is dependent on the focal depth, the wavelength and the probe diameter(aperture) of the ultrasound probe. 
+
+The larger the aperture => the higher resolution of a line. 
+
+The shorter the wavelength (the higher the frequency), the better the resolution, but there is a limitation given by the required depth penetration.
+
+\textbf{2 scatterers at the same depth separated laterally by less than the beam width will appear as one.}
+
+\textbf{If separated both laterally and in depth, they will appear as being in the same line, if lateral separation is within the beam.}
+
+3. elevation resolution (normal to imaging plane-2D)
+
+4. temporal resolution (frame rate) 
+To imagine moving objects, structures such as blood and heart, the frame rate is important, related to the motion speed of the object. The eye generally can only see 25 FPS (video frame rate), giving a temporal resolution of about 40 ms. However, a higher frame rate and new equipment offers the possibility of replay at lower rate, f.i. 50 FPS played at 25 FPS, which will in fact double the effective resolution of the eye. 
+
+In quantitative measurement, whether based on the Doppler effect or 2D B-mode data, sufficient frame rate is important to avoid undersampling.  In Doppler, the frame rate is also important in the  Nykvist phenomenon. 
+
+The temporal resolution  is limited by the sweep speed of the beam. And the sweep speed is limited by the speed of sound, as the echo from the deepest part of the image has to return before the next pulse is sent out ad a different angle in the neighboring beam. "
+
+\item SNR: "The ratio of the signal from the blood compared to the Gaussian noise from Brownian motion in the tissue, the transducer and the preamplifier."
 \end{itemize}
 
 \item \textbf{Understand and use the concepts frame rate, pulse repetition frequency, image region size, line density. Be able to calculate frame rate from the other parameters.}
 
 \begin{itemize}
-\item Frame rate:
-\item Pulse repetition frequency:
+\item Frame rate: "The number of images per unit time. Typically more than 30 frames/sec for tissue imaging depending on the depth, while flow imaging can have frame rates below 10 frames/sec.
+
+Tissue/flow image frame rate: To estimate the blood velocity we need several pulses in each beam direction; for tissue imaging a single pulse in each beam direction is sufficient. Because of this, the flow image frame rate is lower than the tissue image frame rate."
+\item Pulse repetition frequency: "The repetition frequency of the transmitted pulses. This is the same as the sampling frequency."
 \item Image region size:
-\item line density:
+\item line density:" The width of the echo will be determined by the beam width, and thus the distance between the beams (most ultrasound scanners today will intrapolate between beams if the distance between the beams is greater than the beam width). Ideally, the distance between the beam width should be the same as the beam width at the focal depth, for maximal resolution, thus lateral resolution of a beam determining \textbf{the line density}. This means that the line density would be suited to the beam width. This, however, holds only for a linear array."
 \end{itemize}
 
 \begin{equation}
@@ -214,8 +257,13 @@ framerate=
 The transducer transfer function has a distinct maximum at its center frequency. That means any signal with a frequency away from the center frequency will be attenuated, thus reducing SNR.
 
 \item \textbf{Understand how random positioning of scatterering objects leads to interference patterns consisting of destructive and constructive interference.}
+"When two or more waves from different sources propagate through the same medium, they interfere with each other. That is, the effects of each individual wave are added at each point in the medium. The pressure at a point in the medium will be the sum of the pressures on it from the different waves. The constructive interference is referred to the case when the waves are in phase, as the amplitude is grater than that of both the individual waves. If the waves are in anti-phase, the effects of the waves can be canceled out (destructive interference). 
 
+When a source generates a sound wave, the way in which the wave spreads out as it moves away from the source is determined by the relationship between the width and the source (the aperture) and the wavelength of the wave. If the aperture is smaller than the wavelength, the wave spreads out as it travels(diverges), an effect known as diffraction. For a sound wave from a small point source inside a medium, the wave spreads out as an expanding sphere (a spherical wave). The small scattering targets within tissue act as sources of such spherical waves. 
 
+If the width of the source is much greater than the wavelength of the wave, the waves are relatively flat(plane) rather tan curved and lie parallel to the surface of the source. Such waves travel in a direction perpendicular to the surface of the source with relatively little sideways spread, in the form of a parallel-sided beam. 
+
+These 2 different cases of curved waves from a small source and plane waves can be linked by considering the large source to be made up of a long row of small sources. Each of the small sources generates a sound wave of the same frequency and amplitude and all are in phase with each other. The curved waves from each propagate outwards and the parts of the curve which are parallel to the surface of the source align to from plane waves. The other, non-parallel parts of the curved waves tend to interfere destructively and cancel out. "
 
 \item \textbf{Understand the concept of correlation length and its relation to pulse length and resolution.}
 \end{itemize}
